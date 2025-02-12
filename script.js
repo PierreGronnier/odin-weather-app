@@ -1,9 +1,17 @@
-const search = "Berlin";
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector("#weather-form");
 
-async function getData() {
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault(); // Empêche le rechargement de la page
+    const searchTerm = document.querySelector("#weather-search").value;
+    await getData(searchTerm);
+  });
+});
+
+async function getData(searchTerm) {
   try {
     const response = await fetch(
-      `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${search}?unitGroup=us&key=7WAQUA6C6NPPFALWDVMS9FMDP&contentType=json`,
+      `https://weather.visualcrossing.com/VisualCrossingWebServices/rest/services/timeline/${searchTerm}?unitGroup=us&key=7WAQUA6C6NPPFALWDVMS9FMDP&contentType=json`,
       {
         mode: "cors",
       }
@@ -40,5 +48,3 @@ function dataProcess(data) {
 
   return requiredData;
 }
-
-getData();

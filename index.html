@@ -4,8 +4,14 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Odin | Weather App</title>
-    <script src="script.js"></script>
+    <script src="script.js" defer></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
-  <body></body>
+  <body>
+    <form id="weather-form">
+      <label for="weather-search">Enter location:</label>
+      <input type="search" id="weather-search" name="location" required />
+      <button type="submit">Get Weather</button>
+    </form>
+  </body>
 </html>
