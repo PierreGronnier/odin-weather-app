@@ -8,10 +8,59 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <form id="weather-form">
-      <label for="weather-search">Enter location:</label>
-      <input type="search" id="weather-search" name="location" required />
-      <button type="submit">Get Weather</button>
-    </form>
+    <div class="container">
+      <div id="intro-section">
+        <h1>Odin Weather App</h1>
+        <p class="subtitle">Your reliable source for weather forecasts</p>
+        <p class="description">
+          Enter a city to get current conditions and forecasts.
+        </p>
+      </div>
+
+      <form id="weather-form">
+        <input
+          type="search"
+          id="weather-search"
+          name="location"
+          placeholder="Search for a city"
+          required
+        />
+        <button type="submit">Get Weather</button>
+      </form>
+
+      <div class="weather-info" id="weather-info" style="display: none">
+        <div class="current-weather">
+          <div class="location-info">
+            <h2 id="location">Loading...</h2>
+            <p id="date">-</p>
+          </div>
+
+          <div class="weather-main">
+            <img id="main-icon" src="icons/sun.png" alt="Weather icon" />
+            <div class="temperature-container">
+              <p id="temperature">-°C</p>
+              <p id="feels-like">Feels like: -°C</p>
+            </div>
+          </div>
+
+          <div class="weather-stats">
+            <div class="stat-item">
+              <span class="stat-label">Wind</span>
+              <span class="stat-value" id="wind-speed">- km/h</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Humidity</span>
+              <span class="stat-value" id="humidity">- %</span>
+            </div>
+            <div class="stat-item" data-type="conditions">
+              <span class="stat-label">Conditions</span>
+              <span class="stat-value" id="conditions">-</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="forecast-grid" id="forecast-container"></div>
+      </div>
+    </div>
   </body>
 </html>
