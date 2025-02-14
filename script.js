@@ -13,13 +13,9 @@ document.addEventListener("DOMContentLoaded", () => {
     windSpeed: document.querySelector("#wind-speed"),
     humidity: document.querySelector("#humidity"),
     conditions: document.querySelector("#conditions"),
-    toggleUnit: document.querySelector("#toggle-unit"),
   };
 
-  let isCelsius = true;
-
   elements.form.addEventListener("submit", handleSubmit);
-  elements.toggleUnit.addEventListener("click", toggleTemperatureUnit);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -114,28 +110,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     elements.weatherInfo.style.display = "grid";
     elements.introSection.style.display = "none";
-  }
-
-  function toggleTemperatureUnit() {
-    isCelsius = !isCelsius;
-    const temperature = elements.temperature.textContent;
-    const feelsLike = elements.feelsLike.textContent;
-
-    if (isCelsius) {
-      elements.temperature.textContent = temperature.replace(/°F/, "°C");
-      elements.feelsLike.textContent = feelsLike.replace(/°F/, "°C");
-      elements.toggleUnit.textContent = "Switch to Fahrenheit";
-    } else {
-      const tempC = parseFloat(temperature);
-      const feelsLikeC = parseFloat(feelsLike.match(/\d+/)[0]);
-      elements.temperature.textContent = `${Math.round(
-        (tempC * 9) / 5 + 32
-      )}°F`;
-      elements.feelsLike.textContent = `Feels like: ${Math.round(
-        (feelsLikeC * 9) / 5 + 32
-      )}°F`;
-      elements.toggleUnit.textContent = "Switch to Celsius";
-    }
   }
 
   function getTemperatureClass(temp) {
