@@ -13,13 +13,21 @@ document.addEventListener("DOMContentLoaded", () => {
     windSpeed: document.querySelector("#wind-speed"),
     humidity: document.querySelector("#humidity"),
     conditions: document.querySelector("#conditions"),
+    fahrenheit: document.querySelector("#fahrenheit"),
   };
 
+  let currentData = null;
+  let isCelsius = true;
+
   elements.form.addEventListener("submit", handleSubmit);
+  elements.fahrenheit.addEventListener("click", toggleUnit);
 
   async function handleSubmit(event) {
     event.preventDefault();
     const data = await getData(elements.searchInput.value);
+    currentData = data;
+    isCelsius = true;
+    elements.fahrenheit.textContent = "Switch to Fahrenheit";
     updateUI(data);
   }
 
@@ -48,8 +56,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function processCurrent(current) {
     return {
-      temp: Math.round(current.temp),
-      feelsLike: Math.round(current.feelslike),
+      tempC: Math.round(current.temp),
+      tempF: Math.round((current.temp * 9) / 5 + 32),
+      feelsLikeC: Math.round(current.feelslike),
+      feelsLikeF: Math.round((current.feelslike * 9) / 5 + 32),
       conditions: current.conditions,
       humidity: current.humidity,
       windSpeed: current.windspeed,
@@ -63,7 +73,8 @@ document.addEventListener("DOMContentLoaded", () => {
         weekday: "long",
       }),
       date: new Date(day.datetime).toLocaleDateString("en-US"),
-      temp: Math.round(day.temp),
+      tempC: Math.round(day.temp),
+      tempF: Math.round((day.temp * 9) / 5 + 32),
       conditions: day.conditions,
       icon: getWeatherIcon(day.conditions),
     };
@@ -85,8 +96,14 @@ document.addEventListener("DOMContentLoaded", () => {
   function updateUI(data) {
     elements.location.textContent = data.location;
     elements.date.textContent = new Date().toLocaleDateString("en-US");
-    elements.temperature.textContent = `${data.current.temp}°C`;
-    elements.feelsLike.textContent = `${data.current.feelsLike}°C`;
+
+    elements.temperature.textContent = `${
+      isCelsius ? data.current.tempC : data.current.tempF
+    }°${isCelsius ? "C" : "F"}`;
+    elements.feelsLike.textContent = `${
+      isCelsius ? data.current.feelsLikeC : data.current.feelsLikeF
+    }°${isCelsius ? "C" : "F"}`;
+
     elements.mainIcon.src = data.current.icon;
     elements.windSpeed.textContent = `${data.current.windSpeed} km/h`;
     elements.humidity.textContent = `${data.current.humidity} %`;
@@ -94,7 +111,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     elements.forecastContainer.innerHTML = data.forecast
       .map((day) => {
-        const tempClass = getTemperatureClass(day.temp);
+        const tempDisplay = isCelsius ? day.tempC : day.tempF;
+        const tempClass = getTemperatureClass(tempDisplay, isCelsius);
         return `
           <div class="forecast-day">
             <img src="${day.icon}" alt="${day.conditions}">
@@ -102,7 +120,9 @@ document.addEventListener("DOMContentLoaded", () => {
               <div class="day-name">${capitalizeFirstLetter(day.dayName)}</div>
               <div class="date">${day.date}</div>
             </div>
-            <div class="conditions ${tempClass}">${day.temp}°C</div>
+            <div class="conditions ${tempClass}">${tempDisplay}°${
+          isCelsius ? "C" : "F"
+        }</div>
           </div>
         `;
       })
@@ -112,13 +132,28 @@ document.addEventListener("DOMContentLoaded", () => {
     elements.introSection.style.display = "none";
   }
 
-  function getTemperatureClass(temp) {
-    if (temp > 25) return "temp-warm";
-    if (temp > 15) return "temp-mild";
-    return "temp-cool";
+  function getTemperatureClass(temp, isCelsius) {
+    if (isCelsius) {
+      if (temp > 25) return "temp-warm";
+      if (temp > 15) return "temp-mild";
+      return "temp-cool";
+    } else {
+      if (temp > 77) return "temp-warm";
+      if (temp > 59) return "temp-mild";
+      return "temp-cool";
+    }
   }
 
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  function toggleUnit(event) {
+    event.preventDefault();
+    isCelsius = !isCelsius;
+    elements.fahrenheit.textContent = isCelsius
+      ? "Switch to Fahrenheit"
+      : "Switch to Celsius";
+    if (currentData) updateUI(currentData);
   }
 });
