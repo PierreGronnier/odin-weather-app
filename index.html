@@ -10,7 +10,7 @@
   <body>
     <div class="container">
       <div id="intro-section">
-        <h1>Odin Weather App</h1>
+        <h1>Odin | Weather App</h1>
         <p class="subtitle">Your reliable source for weather forecasts</p>
         <p class="description">
           Enter a city to get current conditions and forecasts.
@@ -31,10 +31,12 @@
         </a>
       </form>
 
+      <div id="loading-spinner" style="display: none">Loading...</div>
+
       <div class="weather-info" id="weather-info" style="display: none">
         <div class="current-weather">
           <div class="location-info">
-            <h2 id="location">Loading...</h2>
+            <h2 id="location">-</h2>
             <p id="date">-</p>
           </div>
 

@@ -48,14 +48,15 @@ body {
 }
 
 .subtitle {
-  color: #94a3b8;
-  font-size: 1.1rem;
+  color: var(--text-color);
+  font-size: 1.5rem;
   margin-bottom: 1.5rem;
 }
 
 .description {
-  color: #64748b;
+  color: var(--accent-blue);
   max-width: 500px;
+  font-size: 1.3rem;
   margin: 0 auto;
 }
 

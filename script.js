@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
     humidity: document.querySelector("#humidity"),
     conditions: document.querySelector("#conditions"),
     fahrenheit: document.querySelector("#fahrenheit"),
+    loadingSpinner: document.querySelector("#loading-spinner"),
   };
 
   let currentData = null;
@@ -24,11 +25,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    elements.loadingSpinner.style.display = "block";
+
     const data = await getData(elements.searchInput.value);
     currentData = data;
     isCelsius = true;
     elements.fahrenheit.textContent = "Switch to Fahrenheit";
     updateUI(data);
+
+    elements.loadingSpinner.style.display = "none";
   }
 
   async function getData(searchTerm) {
@@ -43,6 +48,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } catch (error) {
       alert("Unable to fetch weather data");
       console.error("Error:", error);
+      elements.loadingSpinner.style.display = "none";
     }
   }
 
