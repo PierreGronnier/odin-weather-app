@@ -91,6 +91,7 @@ document.addEventListener("DOMContentLoaded", () => {
       cloud: "icons/cloud.png",
       rain: "icons/rain.png",
       snow: "icons/snow.png",
+      overcast: "icons/cloud.png",
     };
     return (
       Object.entries(icons).find(([key]) =>
